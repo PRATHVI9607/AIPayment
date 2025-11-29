@@ -8,6 +8,9 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 EXPOSE 3003
 
-CMD ["sh", "-c", "next start -p ${PORT:-3003}"]
+CMD ["/app/start.sh"]
