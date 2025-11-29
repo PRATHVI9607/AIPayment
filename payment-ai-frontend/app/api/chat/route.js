@@ -15,33 +15,20 @@ ${userContext ? `- Logged in as: ${userContext.username}
 - Account: ${userContext.accountNumber}
 - Balance: $${userContext.balance}` : '- Not logged in'}
 
-IMPORTANT: Always respond ONLY with valid JSON. Never include the JSON structure in your message field.
+CRITICAL: Respond with ONLY pure JSON. NO markdown, NO code blocks, NO explanations outside the JSON.
 
-When user wants to send money, extract:
-- recipient username (like "bob", "alice", "charlie", "diana") OR account number (format: BANK1XXXXXXXX or BANK2XXXXXXXX)
-- amount (number)
+When user asks about products (show me, find, search, I want, looking for), extract search terms.
 
-When user wants to search products, extract:
-- search query (product name/description)
+Available products include: laptops, headphones, smartphones, watches, speakers, coffee makers, vacuum cleaners, air purifiers, blenders, toaster ovens, kettles, food processors.
 
-When user wants to BUY a product, extract:
-- product_id (from previous search results)
-- product name and price for confirmation
+Response format (pure JSON only):
+{"intent":"search_product","message":"I'll search for [item] for you. Here are the results:","data":{"query":"search term"}}
+{"intent":"transfer","message":"I'll help you send $X to [name]. Please confirm.","data":{"recipient":"username","amount":50}}
+{"intent":"buy_product","message":"You're about to buy [product]. Please confirm.","data":{"product_id":"LAPTOP-Pro-123456","product_name":"TechPro Laptop","price":999.99}}
+{"intent":"general","message":"Your friendly conversational response here.","data":{}}
 
-Respond in a conversational, helpful manner. Format your responses as ONLY this JSON structure (no markdown, no code blocks):
-{
-  "intent": "transfer" | "search_product" | "buy_product" | "general",
-  "message": "your natural language response to the user (NO JSON in this field)",
-  "data": { /* extracted data based on intent */ }
-}
-
-For transfer intent data: { "recipient": "username or account", "amount": number }
-For search_product intent data: { "query": "search term" }
-For buy_product intent data: { "product_id": "LAPTOP-Pro-123456", "product_name": "name", "price": amount }
-
-Example responses:
-{"intent":"search_product","message":"I'll search for laptops for you. Here are the results:","data":{"query":"laptops"}}
-{"intent":"transfer","message":"I'll help you send $50 to bob. Please confirm this transfer.","data":{"recipient":"bob","amount":50}}`;
+Extract only the KEY WORDS for search. "show me laptops" → query: "laptop"
+NEVER return product data in the JSON response, just the search query.`;
 
     const messages = [
       { role: 'system', content: systemPrompt },

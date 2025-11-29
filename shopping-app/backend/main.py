@@ -48,6 +48,16 @@ def init_sample_products():
     sample_products = [
         # Brand: TechPro
         {
+            "product_id": "LAPTOP-Pro-123456",
+            "name": "TechPro Laptop Pro",
+            "brand": "TechPro",
+            "category": "Electronics",
+            "price": 999.99,
+            "description": "Professional laptop with high performance processor",
+            "stock": 20
+        },
+        {
+            "product_id": "HEADPHONES-Wireless-789",
             "name": "TechPro Wireless Headphones",
             "brand": "TechPro",
             "category": "Electronics",
@@ -56,6 +66,7 @@ def init_sample_products():
             "stock": 50
         },
         {
+            "product_id": "PHONE-X1-555",
             "name": "TechPro Smartphone X1",
             "brand": "TechPro",
             "category": "Electronics",
@@ -64,14 +75,7 @@ def init_sample_products():
             "stock": 30
         },
         {
-            "name": "TechPro Laptop Pro",
-            "brand": "TechPro",
-            "category": "Electronics",
-            "price": 1299.99,
-            "description": "Professional laptop with high performance processor",
-            "stock": 20
-        },
-        {
+            "product_id": "WATCH-Smart-888",
             "name": "TechPro Smart Watch",
             "brand": "TechPro",
             "category": "Electronics",
@@ -80,6 +84,7 @@ def init_sample_products():
             "stock": 100
         },
         {
+            "product_id": "SPEAKER-BT-333",
             "name": "TechPro Bluetooth Speaker",
             "brand": "TechPro",
             "category": "Electronics",
@@ -90,6 +95,7 @@ def init_sample_products():
         
         # Brand: HomeStyle
         {
+            "product_id": "COFFEE-Maker-111",
             "name": "HomeStyle Coffee Maker",
             "brand": "HomeStyle",
             "category": "Home Appliances",
@@ -98,6 +104,7 @@ def init_sample_products():
             "stock": 40
         },
         {
+            "product_id": "VACUUM-Clean-222",
             "name": "HomeStyle Vacuum Cleaner",
             "brand": "HomeStyle",
             "category": "Home Appliances",
@@ -106,6 +113,7 @@ def init_sample_products():
             "stock": 25
         },
         {
+            "product_id": "AIR-Purifier-444",
             "name": "HomeStyle Air Purifier",
             "brand": "HomeStyle",
             "category": "Home Appliances",
@@ -114,6 +122,7 @@ def init_sample_products():
             "stock": 35
         },
         {
+            "product_id": "BLENDER-Pro-666",
             "name": "HomeStyle Blender Pro",
             "brand": "HomeStyle",
             "category": "Kitchen",
@@ -122,6 +131,7 @@ def init_sample_products():
             "stock": 60
         },
         {
+            "product_id": "TOASTER-Oven-777",
             "name": "HomeStyle Toaster Oven",
             "brand": "HomeStyle",
             "category": "Kitchen",
@@ -130,6 +140,7 @@ def init_sample_products():
             "stock": 45
         },
         {
+            "product_id": "KETTLE-Elec-999",
             "name": "HomeStyle Electric Kettle",
             "brand": "HomeStyle",
             "category": "Kitchen",
@@ -138,6 +149,7 @@ def init_sample_products():
             "stock": 80
         },
         {
+            "product_id": "FOOD-Processor-101",
             "name": "HomeStyle Food Processor",
             "brand": "HomeStyle",
             "category": "Kitchen",
@@ -148,9 +160,8 @@ def init_sample_products():
     ]
     
     for product_data in sample_products:
-        product_id = str(uuid.uuid4())
         products_db.append({
-            "product_id": product_id,
+            "product_id": product_data["product_id"],
             "name": product_data["name"],
             "brand": product_data["brand"],
             "category": product_data["category"],
