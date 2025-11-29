@@ -27,11 +27,6 @@ BANK_SERVERS = {
 # Transaction log
 transaction_log = []
 
-# Health check endpoint
-@app.get("/")
-def health_check():
-    return {"status": "ok", "service": "Payment Gateway"}
-
 # Models
 class TransferRequest(BaseModel):
     from_account: str
