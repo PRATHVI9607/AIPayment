@@ -14,6 +14,8 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - SECRET_KEY=${BANK1_SECRET_KEY}
     restart: unless-stopped
+    healthcheck:
+      disable: true
 
   bank2-api:
     build:
@@ -25,6 +27,8 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - SECRET_KEY=${BANK2_SECRET_KEY}
     restart: unless-stopped
+    healthcheck:
+      disable: true
 
   payment-gateway:
     build:
@@ -39,7 +43,7 @@ services:
       - bank1-api
       - bank2-api
     restart: unless-stopped
-
+    healthcheck:
   shopping-api:
     build:
       context: ./shopping-app/backend
@@ -47,6 +51,10 @@ services:
     ports:
       - "8003:8003"
     environment:
+      - DATABASE_URL=${DATABASE_URL}
+    restart: unless-stopped
+    healthcheck:
+      disable: true
       - DATABASE_URL=${DATABASE_URL}
     restart: unless-stopped
 
