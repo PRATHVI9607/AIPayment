@@ -1,0 +1,92 @@
+services:
+  # Backend Services
+  - type: web
+    name: bank1-api
+    runtime: docker
+    dockerfilePath: ./bank1/Dockerfile
+    dockerContext: ./bank1
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+    healthCheckPath: /
+    
+  - type: web
+    name: bank2-api
+    runtime: docker
+    dockerfilePath: ./bank2/Dockerfile
+    dockerContext: ./bank2
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+    healthCheckPath: /
+    
+  - type: web
+    name: payment-gateway
+    runtime: docker
+    dockerfilePath: ./payment-gateway/Dockerfile
+    dockerContext: ./payment-gateway
+    envVars:
+      - key: BANK1_URL
+        sync: false
+      - key: BANK2_URL
+        sync: false
+    healthCheckPath: /
+    
+  - type: web
+    name: shopping-api
+    runtime: docker
+    dockerfilePath: ./shopping-app/backend/Dockerfile
+    dockerContext: ./shopping-app/backend
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+    healthCheckPath: /
+
+  # Frontend Services
+  - type: web
+    name: payment-ai-frontend
+    runtime: docker
+    dockerfilePath: ./payment-ai-frontend/Dockerfile
+    dockerContext: ./payment-ai-frontend
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_BANK1_API
+        sync: false
+      - key: NEXT_PUBLIC_BANK2_API
+        sync: false
+      - key: NEXT_PUBLIC_PAYMENT_GATEWAY_API
+        sync: false
+      - key: NEXT_PUBLIC_SHOPPING_API
+        sync: false
+        
+  - type: web
+    name: bank1-frontend
+    runtime: docker
+    dockerfilePath: ./bank1/frontend/Dockerfile
+    dockerContext: ./bank1/frontend
+    envVars:
+      - key: NEXT_PUBLIC_BANK1_API
+        sync: false
+        
+  - type: web
+    name: bank2-frontend
+    runtime: docker
+    dockerfilePath: ./bank2/frontend/Dockerfile
+    dockerContext: ./bank2/frontend
+    envVars:
+      - key: NEXT_PUBLIC_BANK2_API
+        sync: false
+        
+  - type: web
+    name: shopping-frontend
+    runtime: docker
+    dockerfilePath: ./shopping-app/frontend/Dockerfile
+    dockerContext: ./shopping-app/frontend
+    envVars:
+      - key: NEXT_PUBLIC_SHOPPING_API
+        sync: false
