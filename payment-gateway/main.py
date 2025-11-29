@@ -5,6 +5,7 @@ from typing import Optional
 import httpx
 import uuid
 from datetime import datetime
+import os
 
 app = FastAPI(title="Payment Gateway", version="1.0")
 
@@ -17,10 +18,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Bank endpoints
+# Bank endpoints - use environment variables for production
 BANK_SERVERS = {
-    "BANK1": "http://localhost:8001",
-    "BANK2": "http://localhost:8002"
+    "BANK1": os.getenv("BANK1_URL", "http://localhost:8001"),
+    "BANK2": os.getenv("BANK2_URL", "http://localhost:8002")
 }
 
 # Transaction log
