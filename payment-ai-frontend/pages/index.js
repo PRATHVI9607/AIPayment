@@ -144,6 +144,8 @@ export default function Home() {
         const products = await searchProducts(aiResponse.data.query)
         if (products && products.length > 0) {
           addMessage('products', `Found ${products.length} products:`, products)
+        } else {
+          addMessage('assistant', `I couldn't find any products matching "${aiResponse.data.query}". Try searching for headphones, laptops, coffee makers, or other items.`)
         }
       } else if (aiResponse.intent === 'buy_product' && aiResponse.data) {
         if (!userContext) {
@@ -177,8 +179,16 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query })
       })
-      return await response.json()
+      
+      if (!response.ok) {
+        console.error('Search API error:', response.status);
+        return []
+      }
+      
+      const data = await response.json()
+      return Array.isArray(data) ? data : []
     } catch (error) {
+      console.error('Search error:', error)
       return []
     }
   }
