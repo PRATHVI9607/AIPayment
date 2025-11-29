@@ -171,8 +171,6 @@ def init_sample_products():
             "image_url": f"https://via.placeholder.com/300?text={product_data['name'].replace(' ', '+')}"
         })
 
-init_sample_products()
-
 # Routes
 @app.get("/")
 def read_root():
