@@ -21,13 +21,13 @@ Start-Sleep -Seconds 5
 # Start Frontend Services
 Write-Host ""
 Write-Host "Starting Frontend Services..." -ForegroundColor Yellow
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\bank1\frontend'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\payment-ai-frontend'; npm run dev -- -p 3000"
 Start-Sleep -Seconds 2
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\bank2\frontend'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\bank1\frontend'; npm run dev -- -p 3001"
 Start-Sleep -Seconds 2
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\shopping-app\frontend'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\bank2\frontend'; npm run dev -- -p 3002"
 Start-Sleep -Seconds 2
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\payment-ai-frontend'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot\shopping-app\frontend'; npm run dev -- -p 3003"
 
 Write-Host ""
 Write-Host "All services are starting..." -ForegroundColor Green

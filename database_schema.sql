@@ -39,6 +39,7 @@ INSERT INTO users (username, email, phone, password_hash, account_number, balanc
 ('bob', 'bob@bank1.com', '+1-555-0102', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy', 'BANK1BOB00001', 3000.00),
 ('shopstore', 'store@bank1.com', '+1-555-0199', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy', 'BANK1SHOPSTORE', 0.00);
 
--- For Bank 2, use similar schema but with different sample users:
--- ('charlie', 'charlie@bank2.com', '+1-555-0201', password_hash, 'BANK2CHARLIE01', 7000.00)
--- ('diana', 'diana@bank2.com', '+1-555-0202', password_hash, 'BANK2DIANA001', 4000.00)
+-- Insert sample users for Bank 2
+INSERT INTO users (username, email, phone, password_hash, account_number, balance) VALUES
+('charlie', 'charlie@bank2.com', '+1-555-0201', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy', 'BANK2CHARLIE01', 7000.00),
+('diana', 'diana@bank2.com', '+1-555-0202', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy', 'BANK2DIANA001', 4000.00);
