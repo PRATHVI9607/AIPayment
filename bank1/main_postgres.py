@@ -79,7 +79,11 @@ def verify_token(token: str):
 # Routes
 @app.get("/")
 def read_root():
-    return {"message": "Bank 1 API with PostgreSQL", "status": "running"}
+    return {"message": "Bank 1 API with PostgreSQL", "status": "running", "database": "connected" if DATABASE_URL else "not configured"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
 
 @app.get("/users")
 def get_all_users():
