@@ -194,12 +194,15 @@ def search_products(search: ProductSearch):
     """Search products based on criteria"""
     results = products_db.copy()
     
-    # Filter by query (search in name and description)
+    # Filter by query (search in name, description, and brand - case insensitive, partial match)
     if search.query:
-        query_lower = search.query.lower()
+        query_lower = search.query.lower().strip()
         results = [
             p for p in results
-            if query_lower in p["name"].lower() or query_lower in p["description"].lower()
+            if query_lower in p["name"].lower() 
+            or query_lower in p["description"].lower()
+            or query_lower in p["brand"].lower()
+            or query_lower in p["category"].lower()
         ]
     
     # Filter by brand
