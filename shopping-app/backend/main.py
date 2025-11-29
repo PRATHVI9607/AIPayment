@@ -19,6 +19,8 @@ app.add_middleware(
 async def startup_event():
     print("Starting Shopping API...")
     print(f"Initializing product database...")
+    init_sample_products()
+    print(f"Loaded {len(products_db)} products")
 
 # In-memory product database
 products_db = []

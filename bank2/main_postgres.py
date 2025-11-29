@@ -34,10 +34,22 @@ async def startup_event():
     # Validate environment variables on startup
     print(f"Starting Bank 2 API...")
     print(f"DATABASE_URL configured: {bool(DATABASE_URL)}")
+    try:
+        # Test database connection
+        conn = psycopg2.connect(DATABASE_URL)
+        conn.close()
+        print("Database connection successful!")
+    except Exception as e:
+        print(f"Database connection failed: {e}")
+        print("Service will continue but database operations will fail")
 
 def get_db_connection():
-    conn = psycopg2.connect(DATABASE_URL)
-    return conn
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        return conn
+    except Exception as e:
+        print(f"Error connecting to database: {e}")
+        raise HTTPException(status_code=500, detail="Database connection failed")
 
 # Models
 class UserLogin(BaseModel):
