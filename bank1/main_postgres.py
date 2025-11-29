@@ -29,9 +29,30 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+@app.on_event("startup")
+async def startup_event():
+    """Test database connection on startup"""
+    print(f"Starting Bank 1 API...")
+    print(f"DATABASE_URL configured: {bool(DATABASE_URL and DATABASE_URL != 'postgresql://user:password@localhost:5432/bank1_db')}")
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM users")
+        count = cur.fetchone()[0]
+        cur.close()
+        conn.close()
+        print(f"✓ Database connected! Found {count} users in database")
+    except Exception as e:
+        print(f"✗ Database connection failed: {e}")
+        print(f"Service will run but database operations will fail")
+
 def get_db_connection():
-    conn = psycopg2.connect(DATABASE_URL)
-    return conn
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        return conn
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        raise HTTPException(status_code=500, detail=f"Database connection failed: {str(e)}")
 
 # Models
 class UserLogin(BaseModel):
