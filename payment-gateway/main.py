@@ -138,7 +138,15 @@ async def process_transfer(request: TransferRequest):
     7. Log transaction
     """
     
+    # Validate amount
+    if request.amount <= 0:
+        return TransferResponse(
+            success=False,
+            message="Amount must be greater than zero"
+        )
+    
     transaction_id = str(uuid.uuid4())
+    print(f"Processing transfer: {request.from_account} -> {request.to_account}, Amount: ${request.amount}")
     
     # Step 1: Identify banks
     sender_bank = identify_bank(request.from_account)
