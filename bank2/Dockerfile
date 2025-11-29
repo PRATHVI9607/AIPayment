@@ -7,4 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "main_postgres.py"]
+EXPOSE 8002
+
+CMD ["uvicorn", "main_postgres:app", "--host", "0.0.0.0", "--port", "8002"]
