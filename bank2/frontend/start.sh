@@ -1,2 +1,2 @@
 #!/bin/sh
-next start -p ${PORT:-3002}
+npx next start -p ${PORT:-3002}
