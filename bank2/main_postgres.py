@@ -29,6 +29,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+@app.on_event("startup")
+async def startup_event():
+    # Validate environment variables on startup
+    print(f"Starting Bank 2 API...")
+    print(f"DATABASE_URL configured: {bool(DATABASE_URL)}")
+
 def get_db_connection():
     conn = psycopg2.connect(DATABASE_URL)
     return conn

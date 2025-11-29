@@ -15,6 +15,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+async def startup_event():
+    print("Starting Shopping API...")
+    print(f"Initializing product database...")
+
 # In-memory product database
 products_db = []
 
