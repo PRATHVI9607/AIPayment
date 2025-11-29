@@ -18,6 +18,11 @@ app.add_middleware(
 # In-memory product database
 products_db = []
 
+# Health check endpoint
+@app.get("/")
+def health_check():
+    return {"status": "ok", "service": "Shopping API"}
+
 # Models
 class Product(BaseModel):
     product_id: str

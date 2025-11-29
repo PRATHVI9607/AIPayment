@@ -29,6 +29,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# Health check endpoint
+@app.get("/")
+def health_check():
+    return {"status": "ok", "service": "Bank 1 API"}
+
 def get_db_connection():
     conn = psycopg2.connect(DATABASE_URL)
     return conn
