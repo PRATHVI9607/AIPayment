@@ -147,21 +147,6 @@ export default function Home() {
         } else {
           addMessage('assistant', `I couldn't find any products matching "${aiResponse.data.query}". Try searching for headphones, laptops, coffee makers, or other items.`)
         }
-      } else if (aiResponse.intent === 'buy_product' && aiResponse.data) {
-        if (!userContext) {
-          addMessage('assistant', 'Please login first to make purchases.')
-          setShowLoginModal(true)
-        } else if (!storeAccount) {
-          addMessage('assistant', 'Store account not available. Please try again.')
-        } else {
-          setPendingTransfer({
-            toAccount: storeAccount.account_number,
-            amount: aiResponse.data.price,
-            description: `Purchase: ${aiResponse.data.product_name}`,
-            isProductPurchase: true
-          })
-          addMessage('assistant', aiResponse.message)
-        }
       } else {
         addMessage('assistant', aiResponse.message, aiResponse.data)
       }
