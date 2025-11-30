@@ -3,14 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 import os
+import json
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-import psycopg2
-from psycopg2.extras import RealDictCursor
 import uuid
 
-app = FastAPI(title="Bank 1 API with PostgreSQL", version="2.0")
+app = FastAPI(title="Bank 1 API", version="3.0")
 
 # CORS
 app.add_middleware(
@@ -21,13 +20,63 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Database connection
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/bank1_db")
+# File storage
+DATA_FILE = "bank1_data.json"
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Initialize data storage
+def load_data():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, 'r') as f:
+            return json.load(f)
+    return {"users": [], "transactions": []}
+
+def save_data(data):
+    with open(DATA_FILE, 'w') as f:
+        json.dump(data, f, indent=2)
+
+# Initialize with sample data
+def init_data():
+    data = load_data()
+    if not data["users"]:
+        data["users"] = [
+            {
+                "user_id": str(uuid.uuid4()),
+                "username": "alice",
+                "email": "alice@bank1.com",
+                "phone": "+1-555-0101",
+                "password_hash": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy",
+                "account_number": "BANK1ALICE001",
+                "balance": 5000.00,
+                "created_at": datetime.now().isoformat()
+            },
+            {
+                "user_id": str(uuid.uuid4()),
+                "username": "bob",
+                "email": "bob@bank1.com",
+                "phone": "+1-555-0102",
+                "password_hash": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy",
+                "account_number": "BANK1BOB00001",
+                "balance": 3000.00,
+                "created_at": datetime.now().isoformat()
+            },
+            {
+                "user_id": str(uuid.uuid4()),
+                "username": "shopstore",
+                "email": "store@bank1.com",
+                "phone": "+1-555-0199",
+                "password_hash": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5agyWRqIK8hZy",
+                "account_number": "BANK1SHOPSTORE",
+                "balance": 0.00,
+                "created_at": datetime.now().isoformat()
+            }
+        ]
+        save_data(data)
+    return data
 
 @app.on_event("startup")
 async def startup_event():

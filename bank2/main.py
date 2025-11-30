@@ -8,7 +8,7 @@ from jose import JWTError, jwt
 import bcrypt
 import uuid
 
-app = FastAPI(title="Bank Server 2", version="1.0")
+app = FastAPI(title="Bank Server 1", version="1.0")
 
 # CORS
 app.add_middleware(
@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Security
-SECRET_KEY = "bank2_secret_key_change_in_production"
+SECRET_KEY = "bank1_secret_key_change_in_production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -95,12 +95,17 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 # Initialize sample users
 def init_sample_data():
     sample_users = [
-        {"username": "charlie", "email": "charlie@bank2.com", "phone": "2234567890", "password": "password123", "initial_balance": 7000.0},
-        {"username": "diana", "email": "diana@bank2.com", "phone": "2234567891", "password": "password123", "initial_balance": 4000.0},
+        {"username": "alice", "email": "alice@bank1.com", "phone": "1234567890", "password": "password123", "initial_balance": 5000.0, "account_number": None},
+        {"username": "bob", "email": "bob@bank1.com", "phone": "1234567891", "password": "password123", "initial_balance": 3000.0, "account_number": None},
+        {"username": "shopstore", "email": "shop@store.com", "phone": "9999999999", "password": "shopstore123", "initial_balance": 0.0, "account_number": "BANK1SHOPSTORE"},
     ]
     for user_data in sample_users:
         user_id = str(uuid.uuid4())
-        account_number = f"BANK2{str(uuid.uuid4())[:8].upper()}"
+        # Use fixed account number for shopstore, generate random for others
+        if user_data["account_number"]:
+            account_number = user_data["account_number"]
+        else:
+            account_number = f"BANK1{str(uuid.uuid4())[:8].upper()}"
         users_db[user_data["username"]] = {
             "user_id": user_id,
             "username": user_data["username"],
@@ -116,7 +121,7 @@ init_sample_data()
 # Routes
 @app.get("/")
 def read_root():
-    return {"message": "Bank Server 2 API", "status": "running"}
+    return {"message": "Bank Server 1 API", "status": "running"}
 
 @app.post("/register")
 def register(user: UserCreate):
@@ -124,7 +129,7 @@ def register(user: UserCreate):
         raise HTTPException(status_code=400, detail="Username already exists")
     
     user_id = str(uuid.uuid4())
-    account_number = f"BANK2{str(uuid.uuid4())[:8].upper()}"
+    account_number = f"BANK1{str(uuid.uuid4())[:8].upper()}"
     
     users_db[user.username] = {
         "user_id": user_id,
@@ -293,4 +298,4 @@ def list_users():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8002)
+    uvicorn.run(app, host="0.0.0.0", port=8001)
