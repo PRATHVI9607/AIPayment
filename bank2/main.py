@@ -8,19 +8,19 @@ from jose import JWTError, jwt
 import bcrypt
 import uuid
 
-app = FastAPI(title="Bank Server 1", version="1.0")
+app = FastAPI(title="Bank 2 API", version="3.0")
 
 # CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=[\"*\"],
+    allow_headers=[\"*\"],
 )
 
 # Security
-SECRET_KEY = "bank1_secret_key_change_in_production"
+SECRET_KEY = "bank2_secret_key_change_in_production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -95,17 +95,12 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 # Initialize sample users
 def init_sample_data():
     sample_users = [
-        {"username": "alice", "email": "alice@bank1.com", "phone": "1234567890", "password": "password123", "initial_balance": 5000.0, "account_number": None},
-        {"username": "bob", "email": "bob@bank1.com", "phone": "1234567891", "password": "password123", "initial_balance": 3000.0, "account_number": None},
-        {"username": "shopstore", "email": "shop@store.com", "phone": "9999999999", "password": "shopstore123", "initial_balance": 0.0, "account_number": "BANK1SHOPSTORE"},
+        {"username": "charlie", "email": "charlie@bank2.com", "phone": "+1-555-0201", "password": "password123", "initial_balance": 7000.0, "account_number": "BANK2CHARLIE01"},
+        {"username": "diana", "email": "diana@bank2.com", "phone": "+1-555-0202", "password": "password123", "initial_balance": 4000.0, "account_number": "BANK2DIANA001"},
     ]
     for user_data in sample_users:
         user_id = str(uuid.uuid4())
-        # Use fixed account number for shopstore, generate random for others
-        if user_data["account_number"]:
-            account_number = user_data["account_number"]
-        else:
-            account_number = f"BANK1{str(uuid.uuid4())[:8].upper()}"
+        account_number = user_data["account_number"]
         users_db[user_data["username"]] = {
             "user_id": user_id,
             "username": user_data["username"],
