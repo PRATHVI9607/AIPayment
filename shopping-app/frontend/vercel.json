@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_SHOPPING_API": "@shopping_api_url",
+    "NEXT_PUBLIC_BANK1_API": "@bank1_api_url"
+  }
+}

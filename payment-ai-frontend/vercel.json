@@ -1,0 +1,12 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "GROQ_API_KEY": "@groq_api_key",
+    "NEXT_PUBLIC_BANK1_API": "@bank1_api_url",
+    "NEXT_PUBLIC_BANK2_API": "@bank2_api_url",
+    "PAYMENT_GATEWAY_URL": "@payment_gateway_url",
+    "SHOPPING_API_URL": "@shopping_api_url"
+  }
+}
