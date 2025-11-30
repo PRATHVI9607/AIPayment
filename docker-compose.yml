@@ -44,19 +44,17 @@ services:
       - bank2-api
     restart: unless-stopped
     healthcheck:
+      disable: true
+
   shopping-api:
     build:
       context: ./shopping-app/backend
       dockerfile: Dockerfile
     ports:
       - "8003:8003"
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
     restart: unless-stopped
     healthcheck:
       disable: true
-      - DATABASE_URL=${DATABASE_URL}
-    restart: unless-stopped
 
   # Frontend Services
   payment-ai-frontend:
