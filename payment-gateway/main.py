@@ -114,6 +114,26 @@ async def credit_account(bank_url: str, account_number: str, amount: float, tran
         except Exception as e:
             return {"success": False, "reason": str(e)}
 
+@app.on_event("startup")
+async def startup():
+    print("="*60)
+    print("🌐 PAYMENT GATEWAY STARTING...")
+    print(f"🏦 Bank 1 URL: {BANK_SERVERS['BANK1']}")
+    print(f"🏦 Bank 2 URL: {BANK_SERVERS['BANK2']}")
+    print(f"🔧 Testing bank connectivity...")
+    # Test connectivity
+    async with httpx.AsyncClient() as client:
+        for bank_name, bank_url in BANK_SERVERS.items():
+            try:
+                response = await client.get(f"{bank_url}/", timeout=5.0)
+                if response.status_code == 200:
+                    print(f"✅ {bank_name} is reachable")
+                else:
+                    print(f"⚠️ {bank_name} returned status {response.status_code}")
+            except Exception as e:
+                print(f"❌ {bank_name} is not reachable: {e}")
+    print("="*60)
+
 # Routes
 @app.get("/")
 def read_root():

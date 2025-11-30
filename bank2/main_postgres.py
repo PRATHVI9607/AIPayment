@@ -31,17 +31,25 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @app.on_event("startup")
 async def startup_event():
-    # Validate environment variables on startup
-    print(f"Starting Bank 2 API...")
-    print(f"DATABASE_URL configured: {bool(DATABASE_URL)}")
+    """Test database connection on startup"""
+    print("="*60)
+    print("🚀 BANK 2 API STARTING...")
+    print(f"📊 DATABASE_URL configured: {bool(DATABASE_URL and DATABASE_URL != 'postgresql://user:password@localhost:5432/bank2_db')}")
+    print(f"🔑 SECRET_KEY configured: {bool(SECRET_KEY != 'your-secret-key-change-in-production')}")
     try:
-        # Test database connection
         conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM users")
+        count = cur.fetchone()[0]
+        cur.close()
         conn.close()
-        print("Database connection successful!")
+        print(f"✅ Database connected! Found {count} users in database")
     except Exception as e:
-        print(f"Database connection failed: {e}")
-        print("Service will continue but database operations will fail")
+        print(f"❌ Database connection failed: {type(e).__name__}: {e}")
+        print(f"⚠️ Service will run but database operations will fail")
+        import traceback
+        traceback.print_exc()
+    print("="*60)
 
 def get_db_connection():
     try:
