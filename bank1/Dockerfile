@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 8001
 
-CMD ["sh", "-c", "uvicorn main_postgres:app --host 0.0.0.0 --port ${PORT:-8001}"]
+CMD ["sh", "-c", "uvicorn main_postgres:app --host 0.0.0.0 --port ${PORT:-8001} --log-level info"]

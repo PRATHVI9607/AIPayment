@@ -34,6 +34,7 @@ async def startup_event():
     """Test database connection on startup"""
     print("="*60)
     print("🚀 BANK 1 API STARTING...")
+    print(f"🔌 PORT from environment: {os.getenv('PORT', 'NOT SET')}")
     print(f"📊 DATABASE_URL configured: {bool(DATABASE_URL and DATABASE_URL != 'postgresql://user:password@localhost:5432/bank1_db')}")
     print(f"🔑 SECRET_KEY configured: {bool(SECRET_KEY != 'your-secret-key-change-in-production')}")
     try:
