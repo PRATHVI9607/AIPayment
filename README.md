@@ -2,6 +2,23 @@
 
 An AI-powered payment system with multiple banks, payment gateway, shopping app, and intelligent chatbot interface.
 
+## 🚀 Deploy to Railway (Recommended!)
+
+**Want to deploy this to the cloud? Follow our comprehensive guides:**
+
+1. 📖 **[RAILWAY_SETUP.md](RAILWAY_SETUP.md)** - Complete step-by-step deployment guide
+2. ⚡ **[RAILWAY_QUICK_REFERENCE.md](RAILWAY_QUICK_REFERENCE.md)** - Quick configuration reference
+3. 📊 **[RAILWAY_VISUAL_GUIDE.txt](RAILWAY_VISUAL_GUIDE.txt)** - Visual architecture diagram
+4. ✅ **[DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** - Track your deployment progress
+
+**Quick Start:**
+- Sign up at https://railway.app
+- Get Groq API key from https://console.groq.com
+- Deploy all 8 services following RAILWAY_SETUP.md
+- Share your deployed Payment AI chatbot with the world!
+
+---
+
 ## 🏗️ Architecture
 
 ### Backend Services (FastAPI)
