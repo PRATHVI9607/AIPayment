@@ -1,1 +1,0 @@
-web: cd bank1 && uvicorn main_postgres:app --host 0.0.0.0 --port $PORT

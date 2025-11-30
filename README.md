@@ -1,14 +1,14 @@
-# PaymentAI2 - Multi-Bank Payment Ecosystem with AI Chatbot
+# PaymentAI2 - Multi-Bank Payment System with AI Chatbot
 
-A comprehensive payment ecosystem simulation with multiple banks, a payment gateway, shopping app, and an AI-powered payment chatbot.
+An AI-powered payment system with multiple banks, payment gateway, shopping app, and intelligent chatbot interface.
 
 ## 🏗️ Architecture
 
 ### Backend Services (FastAPI)
-- **Bank Server 1** - Port 8001
-- **Bank Server 2** - Port 8002
-- **Payment Gateway** - Port 8000
-- **Shopping App Backend** - Port 8003
+- **Bank 1 API** - Port 8001 (In-memory storage)
+- **Bank 2 API** - Port 8002 (In-memory storage)
+- **Payment Gateway** - Port 8000 (Inter-bank routing)
+- **Shopping App API** - Port 8003 (Product catalog)
 
 ### Frontend Services (Next.js)
 - **Payment AI Chatbot** - Port 3000
@@ -116,9 +116,17 @@ curl -X POST http://localhost:8003/products/search \
   }'
 ```
 
-## 🚀 Starting the Services (If Stopped)
+## 🚀 Quick Start
 
-### Backend Services
+### One-Command Launch (Recommended)
+```powershell
+# From project root (C:\Workspace\PaymentAI2)
+.\start-all.ps1
+```
+
+This script launches all 8 services (4 backends + 4 frontends) automatically.
+
+### Manual Start - Backend Services
 ```powershell
 # From project root (C:\Workspace\PaymentAI2)
 
@@ -163,6 +171,12 @@ npm run dev
 - **Password Hashing:** bcrypt
 - **HTTP Client:** httpx (for inter-service communication)
 
+### Data Storage
+- **In-Memory Storage** - All user accounts and transactions are stored in memory
+- Data resets when servers restart
+- No external database required
+- Perfect for testing and development
+
 ### Security Features
 - JWT token authentication with 30-minute expiration
 - Bcrypt password hashing
@@ -170,11 +184,7 @@ npm run dev
 - Authorization checks before each transaction
 - CORS enabled for development (restrict in production)
 
-### Data Persistence
-- Currently using **in-memory storage** (data resets on server restart)
-- For production: Replace with PostgreSQL/MySQL using SQLAlchemy
-
-## 🤖 Payment AI Chatbot - NOW FULLY FUNCTIONAL!
+## 🤖 Payment AI Chatbot
 
 The Payment AI chatbot is now complete with:
 
@@ -191,15 +201,16 @@ The Payment AI chatbot is now complete with:
      - "What's my balance?"
 
 3. **💰 Money Transfers**
-   - Login to your bank account
+   - Secure login to your bank
    - Send money using natural language
    - Confirmation dialog before transfer
    - Real-time balance updates
 
-4. **🛍️ Product Search**
-   - Search shopping catalog by voice or text
-   - Filter by brand, price, category
-   - View product details inline
+4. **🛍️ Product Search & Purchase**
+   - Search products by voice or text
+   - View product cards with details
+   - Click "ACQUIRE" button to purchase
+   - Secure payment through gateway
 
 5. **🔐 Secure Authentication**
    - Bank login with JWT tokens
@@ -253,25 +264,19 @@ Visit the following URLs for interactive API documentation:
 
 ## ⚠️ Important Notes
 
-1. **Development Mode Only** - These services use development settings
-2. **No Data Persistence** - All data is in-memory and will be lost on restart
-3. **Security Keys** - Change the SECRET_KEY values in production
+1. **Development Mode** - Uses development settings and in-memory storage
+2. **No Database** - All data is in-memory and resets on restart
+3. **Security Keys** - Change SECRET_KEY values for production
 4. **CORS** - Currently allows all origins (restrict in production)
-5. **Error Handling** - Basic error handling; enhance for production
-6. **No Rollback** - Failed credit operations don't auto-rollback debits
 
-## 🎯 Next Steps
+## 🎯 Future Enhancements
 
-1. **Add Database:** Implement SQLAlchemy with PostgreSQL
-2. **Complete AI Chatbot:** Integrate Gemini/Groq for NLP
-3. **Add Voice Input:** Implement speech-to-text
-4. **Enhanced Frontend:** Build full login/dashboard UIs
-5. **Transaction History:** Add detailed transaction views
-6. **Notifications:** Real-time transaction alerts
-7. **Admin Panel:** Manage users, view all transactions
-8. **Testing:** Add unit and integration tests
-9. **Docker:** Containerize all services
-10. **Production Deploy:** Add SSL, proper security, monitoring
+- Add persistent database storage (PostgreSQL/MySQL)
+- Enhanced security with rate limiting
+- Transaction history and reporting
+- Admin dashboard for monitoring
+- Docker containerization
+- Production deployment guides
 
 ## 📝 License
 
@@ -279,4 +284,4 @@ This is a demo/educational project.
 
 ---
 
-**Status:** ✅ All services running and ready for development!
+**Status:** ✅ Fully functional payment system with AI chatbot interface!
