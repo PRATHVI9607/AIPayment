@@ -4,6 +4,24 @@
 Write-Host "Starting PaymentAI2 System..." -ForegroundColor Cyan
 Write-Host ""
 
+# First, stop any existing processes on our ports
+Write-Host "Checking for existing processes..." -ForegroundColor Yellow
+$ports = @(8000, 8001, 8002, 8003, 3000, 3001, 3002, 3003)
+foreach ($port in $ports) {
+    $connections = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue
+    if ($connections) {
+        foreach ($conn in $connections) {
+            $process = Get-Process -Id $conn.OwningProcess -ErrorAction SilentlyContinue
+            if ($process) {
+                Write-Host "  Stopping process on port $port (PID: $($process.Id))" -ForegroundColor Red
+                Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+            }
+        }
+    }
+}
+Start-Sleep -Seconds 2
+Write-Host ""
+
 # Start Backend Services
 Write-Host "Starting Backend Services..." -ForegroundColor Yellow
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PSScriptRoot'; python -m uvicorn bank1.main:app --reload --port 8001"
