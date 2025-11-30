@@ -17,10 +17,16 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup_event():
-    print("Starting Shopping API...")
-    print(f"Initializing product database...")
+    print("="*50)
+    print("🛍️ Starting Shopping API...")
+    print(f"📦 Initializing product database...")
     init_sample_products()
-    print(f"Loaded {len(products_db)} products")
+    print(f"✅ Loaded {len(products_db)} products")
+    brands = set(p['brand'] for p in products_db)
+    categories = set(p['category'] for p in products_db)
+    print(f"📊 Brands: {', '.join(brands)}")
+    print(f"📊 Categories: {', '.join(categories)}")
+    print("="*50)
 
 # In-memory product database
 products_db = []
@@ -192,6 +198,7 @@ def get_product(product_id: str):
 @app.post("/products/search", response_model=List[Product])
 def search_products(search: ProductSearch):
     """Search products based on criteria"""
+    print(f"🔍 Product search: query='{search.query}', brand={search.brand}, category={search.category}")
     results = products_db.copy()
     
     # Filter by query (search in name, description, and brand - case insensitive, partial match)
@@ -220,6 +227,7 @@ def search_products(search: ProductSearch):
     if search.max_price is not None:
         results = [p for p in results if p["price"] <= search.max_price]
     
+    print(f"✅ Found {len(results)} products")
     return results
 
 @app.get("/brands")

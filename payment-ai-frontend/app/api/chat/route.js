@@ -1,6 +1,7 @@
 export async function POST(request) {
   try {
     const { message, conversationHistory, userContext } = await request.json();
+    console.log('💬 Chat request:', { message, userContext: userContext?.username });
 
     const systemPrompt = `You are a helpful payment assistant AI. You can help users with:
 1. Sending money to other users (by username OR account number)
@@ -37,6 +38,7 @@ NEVER return product data in the JSON response, just the search query.`;
     ];
 
     // Call Groq API directly via fetch
+    console.log('🤖 Calling Groq API...');
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -52,8 +54,10 @@ NEVER return product data in the JSON response, just the search query.`;
     });
 
     if (!response.ok) {
+      console.error('❌ Groq API error:', response.status, response.statusText);
       throw new Error(`Groq API error: ${response.statusText}`);
     }
+    console.log('✅ Groq API response received');
 
     const data = await response.json();
     const aiResponse = data.choices[0]?.message?.content || '';
@@ -89,9 +93,11 @@ NEVER return product data in the JSON response, just the search query.`;
       };
     }
 
+    console.log('📤 Sending response:', parsedResponse.intent);
     return Response.json(parsedResponse);
   } catch (error) {
-    console.error('Chat API error:', error);
+    console.error('❌ Chat API error:', error.message);
+    console.error('Stack:', error.stack);
     return Response.json(
       { 
         intent: 'general',
